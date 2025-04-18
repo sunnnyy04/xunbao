@@ -139,7 +139,7 @@ const StarField: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute w-full h-full z-[-1]"
+      className="absolute w-full h-full z-0"
       style={{ display: 'block' }}
     />
   );

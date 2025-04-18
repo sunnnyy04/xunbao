@@ -65,8 +65,8 @@ function Index() {
                     <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-white mb-6 sm:mb-8 animate-glow drop-shadow-lg">
                         WELCOME TO XUNBAO
                     </h1>
-                    <Link to="/" className="flex justify-center">
-                        <XButton className="px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl font-semibold transition-colors duration-300">
+                    <Link to="/register" className="flex justify-center">
+                        <XButton className="px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl font-semibold transition-colors duration-300 border py-2 px-3 rounded-sm shadow-[3px_4px_0_white] active:shadow-[1px_2px_0_white]">
                             Launch Adventure
                         </XButton>
                     </Link>
