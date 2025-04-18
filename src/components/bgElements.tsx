@@ -54,7 +54,42 @@ const SpaceElements: React.FC<SpaceElementsProps> = ({ className }) => {
                     alt="Earth"
                 />
             </div>
+
+            <style>{`
+        @keyframes glow {
+          0%, 100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
+          50% { text-shadow: 0 0 20px rgba(255, 255, 255, 1); }
+        }
+        @keyframes spin-very-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes bounce {
+          0%, 100% {
+            transform: translateY(-10%);
+            animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+          }
+          50% {
+            transform: none;
+            animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+          }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes spin-fast {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(-360deg); }
+        }
+        .animate-spin-very-slow { animation: spin-very-slow 30s linear infinite; }
+        .animate-glow { animation: glow 2s ease-in-out infinite; }
+        .animate-bounce {animation: bounce 2s ease-in-out infinite; }
+        .animate-spin-slow { animation: spin-slow 10s linear infinite; }
+        .animate-spin-fast { animation: spin-fast 8s linear infinite; }
+      `}</style>
         </div>
+
     );
 };
 

@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 
-// Zod schema
 const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     rollNumber: z.string().min(1, "Roll Number is required"),
@@ -62,17 +61,13 @@ export default function RegisterForm() {
 
     return (
         <div className="relative h-screen w-screen overflow-hidden">
-            {/* Background stars or space animation */}
             <SpaceElements className="absolute inset-0 z-0" />
 
-            {/* Foreground container */}
             <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 space-y-8">
-                {/* Title */}
                 <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold underline text-white text-center">
                     Registration Form
                 </h1>
 
-                {/* Form */}
                 <div className="w-full max-w-md bg-black/70 backdrop-blur-md border border-white/20 p-8 rounded-2xl shadow-2xl">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

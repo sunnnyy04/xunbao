@@ -2,8 +2,23 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState, useEffect } from 'react';
 import { SignedIn, SignedOut, SignInButton } from '@clerk/clerk-react';
 import { useQuestions, useSubmitAnswer, useLeaderboard } from '../hooks/quizHooks';
-import { useQuizStore } from '../store/quizStore';
 import SpaceElements from '@/components/bgElements';
+
+// Define interfaces for data shapes
+interface Question {
+  id: string;
+  question: string;
+  options: string[];
+}
+
+interface LeaderboardEntry {
+  username: string;
+  score: number;
+}
+
+interface SubmitAnswerResult {
+  correct: boolean;
+}
 
 export const Route = createFileRoute('/quiz')({
   component: RouteComponent,
@@ -11,43 +26,46 @@ export const Route = createFileRoute('/quiz')({
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const { data: allQuestions, isLoading } = useQuestions();
+  const { data: allQuestions, isLoading } = useQuestions() as { data: Question[] | undefined; isLoading: boolean };
   const submitAnswerMutation = useSubmitAnswer();
-  const { data: leaderboardData, isLoading: isLeaderboardLoading, error: leaderboardError } = useLeaderboard();
+  const { data: leaderboardData, isLoading: isLeaderboardLoading, error: leaderboardError } = useLeaderboard() as {
+    data: LeaderboardEntry[] | undefined;
+    isLoading: boolean;
+    error: Error | null;
+  };
 
-  const { questions, setQuestions, removeCurrentQuestion } = useQuizStore();
-
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [timeLeft, setTimeLeft] = useState(() => {
+  const [timeLeft, setTimeLeft] = useState<number>(() => {
     const savedTimer = localStorage.getItem('quizTimer');
     if (savedTimer) {
-      const { startTime, duration } = JSON.parse(savedTimer);
+      const { startTime, duration } = JSON.parse(savedTimer) as { startTime: number; duration: number };
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
       const remaining = duration - elapsed;
       return remaining > 0 ? remaining : 0;
     }
     return 20;
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [startTime, setStartTime] = useState(() => {
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isCorrect, setIsCorrect] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [startTime, setStartTime] = useState<number | null>(() => {
     const savedTimer = localStorage.getItem('quizTimer');
-    return savedTimer ? JSON.parse(savedTimer).startTime : null;
+    return savedTimer ? (JSON.parse(savedTimer) as { startTime: number }).startTime : null;
   });
 
   useEffect(() => {
     if (allQuestions && allQuestions.length > 0 && questions.length === 0) {
       setQuestions(allQuestions);
     }
-  }, [allQuestions, questions.length, setQuestions]);
+  }, [allQuestions, questions.length]);
 
-  const currentQuestion = questions.length > 0 ? questions[0] : null;
+  const currentQuestion: Question | null = questions.length > 0 ? questions[0] : null;
 
   useEffect(() => {
     if (!currentQuestion || showModal) return;
 
-    const newStartTime = startTime || Date.now();
+    const newStartTime = startTime ?? Date.now();
     if (!startTime) {
       setStartTime(newStartTime);
       localStorage.setItem('quizTimer', JSON.stringify({ startTime: newStartTime, duration: 20 }));
@@ -66,7 +84,7 @@ function RouteComponent() {
         localStorage.removeItem('quizTimer');
         setStartTime(null);
         if (isCorrect) {
-          removeCurrentQuestion();
+          setQuestions((prev) => prev.slice(1));
         }
       }
     }, 1000);
@@ -107,7 +125,7 @@ function RouteComponent() {
       const result = await submitAnswerMutation.mutateAsync({
         questionId: currentQuestion.id,
         selectedOption,
-      });
+      }) as SubmitAnswerResult;
 
       if (result.correct) {
         setIsCorrect(true);
@@ -116,7 +134,7 @@ function RouteComponent() {
         setSelectedOption(null);
       }
 
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const elapsed = Math.floor((Date.now() - (startTime ?? Date.now())) / 1000);
       const remaining = 20 - elapsed;
       if (remaining > 0) {
         setTimeout(() => {
@@ -124,7 +142,7 @@ function RouteComponent() {
           localStorage.removeItem('quizTimer');
           setStartTime(null);
           if (result.correct) {
-            removeCurrentQuestion();
+            setQuestions((prev) => prev.slice(1));
           }
         }, remaining * 1000);
       } else {
@@ -132,7 +150,7 @@ function RouteComponent() {
         localStorage.removeItem('quizTimer');
         setStartTime(null);
         if (result.correct) {
-          removeCurrentQuestion();
+          setQuestions((prev) => prev.slice(1));
         }
       }
     } catch (error) {
@@ -258,7 +276,7 @@ function RouteComponent() {
                 <tbody>
                   {leaderboardData.map((entry, index) => (
                     <tr key={index} className="hover:bg-gray-50">
-                      <td className="border p-2">{index + 1}</td> {/* Calculate rank dynamically */}
+                      <td className="border p-2">{index + 1}</td>
                       <td className="border p-2">{entry.username}</td>
                       <td className="border p-2">{entry.score}</td>
                     </tr>
