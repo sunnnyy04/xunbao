@@ -21,7 +21,6 @@ const formSchema = z.object({
     course: z.string().min(1, "Course is required"),
     phoneNumber: z.string().min(1, "Phone Number is required"),
     yearOfGraduation: z.number().min(1, "Year of Graduation is required"),
-    studentId: z.string().min(1, "Student ID is required"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -37,7 +36,6 @@ export default function RegisterForm() {
             course: "",
             phoneNumber: "",
             yearOfGraduation: 1900,
-            studentId: "",
         },
     });
 
@@ -73,22 +71,8 @@ export default function RegisterForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Full Name</FormLabel>
-                                        <FormControl>
+                                        <FormControl className="text-white">
                                             <Input placeholder="Name..." {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="studentId"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-white">Student ID</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="ID" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -101,7 +85,7 @@ export default function RegisterForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Roll Number</FormLabel>
-                                        <FormControl>
+                                        <FormControl className="text-white">
                                             <Input placeholder="Roll Number" {...field} />
                                         </FormControl>
                                         <FormMessage />
@@ -115,7 +99,7 @@ export default function RegisterForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Email</FormLabel>
-                                        <FormControl>
+                                        <FormControl className="text-white">
                                             <Input placeholder="example@domain.com" type="email" {...field} />
                                         </FormControl>
                                         <FormMessage />
@@ -129,7 +113,7 @@ export default function RegisterForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Branch</FormLabel>
-                                        <FormControl>
+                                        <FormControl className="text-white">
                                             <Input placeholder="Computer Science" {...field} />
                                         </FormControl>
                                         <FormMessage />
@@ -143,7 +127,7 @@ export default function RegisterForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Course</FormLabel>
-                                        <FormControl>
+                                        <FormControl className="text-white">
                                             <Input placeholder="B.TECH" {...field} />
                                         </FormControl>
                                         <FormMessage />
@@ -157,7 +141,7 @@ export default function RegisterForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Phone Number</FormLabel>
-                                        <FormControl>
+                                        <FormControl className="text-white">
                                             <Input placeholder="+1234567890" type="tel" {...field} />
                                         </FormControl>
                                         <FormMessage />
@@ -171,7 +155,7 @@ export default function RegisterForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Year of Graduation</FormLabel>
-                                        <FormControl>
+                                        <FormControl className="text-white">
                                             <Input placeholder="e.g., 2025" type="number" {...field} />
                                         </FormControl>
                                         <FormMessage />
