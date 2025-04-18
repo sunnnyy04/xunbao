@@ -18,10 +18,10 @@ const router = createRouter({
 });
 
 // Get Clerk publishable key
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Clerk Publishable Key");
-}
+// const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+// if (!PUBLISHABLE_KEY) {
+//   throw new Error("Missing Clerk Publishable Key");
+// }
 
 // Register router type
 declare module '@tanstack/react-router' {
@@ -38,9 +38,9 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
-          <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+          {/* <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/"> */}
             <RouterProvider router={router} />
-          </ClerkProvider>
+          {/* </ClerkProvider> */}
         </QueryClientProvider>
       </ErrorBoundary>
     </StrictMode>,

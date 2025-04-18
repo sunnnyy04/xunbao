@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import SpaceElements from "./bgElements";
 import {
     Form,
     FormField,
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 
+// Zod schema
 const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
     rollNumber: z.string().min(1, "Roll Number is required"),
@@ -59,10 +61,19 @@ export default function RegisterForm() {
     };
 
     return (
-        <>
-            <div className="absolute left-1/2 -translate-x-1/2 text-3xl underline text-white top-20">Registration Form</div>
-            <div className="h-screen w-screen flex items-center justify-center">
-                <div className="border p-8 rounded-2xl shadow-xl w-full max-w-md">
+        <div className="relative h-screen w-screen overflow-hidden">
+            {/* Background stars or space animation */}
+            <SpaceElements className="absolute inset-0 z-0" />
+
+            {/* Foreground container */}
+            <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 space-y-8">
+                {/* Title */}
+                <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold underline text-white text-center">
+                    Registration Form
+                </h1>
+
+                {/* Form */}
+                <div className="w-full max-w-md bg-black/70 backdrop-blur-md border border-white/20 p-8 rounded-2xl shadow-2xl">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                             <FormField
@@ -71,92 +82,86 @@ export default function RegisterForm() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Full Name</FormLabel>
-                                        <FormControl className="text-white">
-                                            <Input placeholder="Name..." {...field} />
+                                        <FormControl>
+                                            <Input className="text-white" placeholder="Name..." {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-
                             <FormField
                                 control={form.control}
                                 name="rollNumber"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Roll Number</FormLabel>
-                                        <FormControl className="text-white">
-                                            <Input placeholder="Roll Number" {...field} />
+                                        <FormControl>
+                                            <Input className="text-white" placeholder="Roll Number" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-
                             <FormField
                                 control={form.control}
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Email</FormLabel>
-                                        <FormControl className="text-white">
-                                            <Input placeholder="example@domain.com" type="email" {...field} />
+                                        <FormControl>
+                                            <Input className="text-white" type="email" placeholder="example@domain.com" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-
                             <FormField
                                 control={form.control}
                                 name="branch"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Branch</FormLabel>
-                                        <FormControl className="text-white">
-                                            <Input placeholder="Computer Science" {...field} />
+                                        <FormControl>
+                                            <Input className="text-white" placeholder="Computer Science" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-
                             <FormField
                                 control={form.control}
                                 name="course"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Course</FormLabel>
-                                        <FormControl className="text-white">
-                                            <Input placeholder="B.TECH" {...field} />
+                                        <FormControl>
+                                            <Input className="text-white" placeholder="B.TECH" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-
                             <FormField
                                 control={form.control}
                                 name="phoneNumber"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Phone Number</FormLabel>
-                                        <FormControl className="text-white">
-                                            <Input placeholder="+1234567890" type="tel" {...field} />
+                                        <FormControl>
+                                            <Input className="text-white" type="tel" placeholder="+1234567890" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-
                             <FormField
                                 control={form.control}
                                 name="yearOfGraduation"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Year of Graduation</FormLabel>
-                                        <FormControl className="text-white">
-                                            <Input placeholder="e.g., 2025" type="number" {...field} />
+                                        <FormControl>
+                                            <Input className="text-white" type="number" placeholder="e.g., 2025" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -168,10 +173,11 @@ export default function RegisterForm() {
                             </Button>
                         </form>
                     </Form>
-
-                    {message && <p className="mt-4 text-sm">{message}</p>}
+                    {message && (
+                        <p className="mt-4 text-sm text-white text-center">{message}</p>
+                    )}
                 </div>
             </div>
-        </>
+        </div>
     );
 }
