@@ -15,47 +15,56 @@ import {
 import { useState } from "react";
 
 const formSchema = z.object({
-    name: z.string().min(1, "Name is required"),
-    rollNumber: z.string().min(1, "Roll Number is required"),
+    fullName: z.string().min(1, "Full name is required"),
+    rollNumber: z.string().min(1, "Roll number is required"),
     email: z.string().email("Invalid email format"),
     branch: z.string().min(1, "Branch is required"),
     course: z.string().min(1, "Course is required"),
-    phoneNumber: z.string().min(1, "Phone Number is required"),
-    yearOfGraduation: z.number().min(1, "Year of Graduation is required"),
+    phoneNumber: z.string().regex(/^\d{10}$/, "Must be 10 digit number"),
+    yog: z.string().min(4, "Year of graduation must be valid"),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 export default function RegisterForm() {
+    const [message, setMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
+            fullName: "",
             rollNumber: "",
             email: "",
             branch: "",
             course: "",
             phoneNumber: "",
-            yearOfGraduation: 1900,
+            yog: "",
         },
     });
 
-    const [message, setMessage] = useState("");
-
     const onSubmit = async (data: FormData) => {
+        setIsLoading(true);
         setMessage("");
-        const res = await fetch("http://localhost:3000/api/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
+        try {
+            const res = await fetch("http://localhost:8000/api/user/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
 
-        const result = await res.json();
-        if (res.ok) {
-            form.reset();
-            setMessage("Registration successful!");
-        } else {
-            setMessage(result.error || "Something went wrong");
+            const result = await res.json();
+            if (res.ok) {
+                form.reset();
+                setMessage("Registration successful!");
+            } else {
+                setMessage(result.message || result.error || "Something went wrong");
+            }
+        } catch (err) {
+            setMessage("Network error. Please try again.");
+            console.log(err);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -73,12 +82,12 @@ export default function RegisterForm() {
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                             <FormField
                                 control={form.control}
-                                name="name"
+                                name="fullName"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Full Name</FormLabel>
                                         <FormControl>
-                                            <Input className="text-white" placeholder="Name..." {...field} />
+                                            <Input autoFocus className="text-white" placeholder="Name..." {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -143,7 +152,7 @@ export default function RegisterForm() {
                                     <FormItem>
                                         <FormLabel className="text-white">Phone Number</FormLabel>
                                         <FormControl>
-                                            <Input className="text-white" type="tel" placeholder="+1234567890" {...field} />
+                                            <Input className="text-white" placeholder="9876543210" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -151,20 +160,20 @@ export default function RegisterForm() {
                             />
                             <FormField
                                 control={form.control}
-                                name="yearOfGraduation"
+                                name="yog"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-white">Year of Graduation</FormLabel>
                                         <FormControl>
-                                            <Input className="text-white" type="number" placeholder="e.g., 2025" {...field} />
+                                            <Input className="text-white" placeholder="e.g., 2027" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
 
-                            <Button type="submit" className="w-full">
-                                Register
+                            <Button type="submit" disabled={isLoading} className="w-full">
+                                {isLoading ? "Registering..." : "Register"}
                             </Button>
                         </form>
                     </Form>

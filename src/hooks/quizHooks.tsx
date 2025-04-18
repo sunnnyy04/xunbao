@@ -21,7 +21,7 @@ export const useQuestions = () => {
   return useQuery({
     queryKey: ['questions'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:3000/questions');
+      const response = await fetch('http://localhost:8000/questions');
       if (!response.ok) throw new Error('Failed to fetch questions');
       const data = await response.json();
       return data
