@@ -256,9 +256,9 @@ function RouteComponent() {
                   </tr>
                 </thead>
                 <tbody>
-                  {leaderboardData.map((entry) => (
-                    <tr key={entry.rank} className="hover:bg-gray-50">
-                      <td className="border p-2">{entry.rank}</td>
+                  {leaderboardData.map((entry, index) => (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="border p-2">{index + 1}</td> {/* Calculate rank dynamically */}
                       <td className="border p-2">{entry.username}</td>
                       <td className="border p-2">{entry.score}</td>
                     </tr>

@@ -67,7 +67,7 @@ function Index() {
                     </h1>
                     <Link to="/register" className="flex justify-center">
                         <XButton className="px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl font-semibold transition-colors duration-300 border py-2 px-3 rounded-sm shadow-[3px_4px_0_white] active:shadow-[1px_2px_0_white]">
-                            Launch Adventure
+                            REGISTER
                         </XButton>
                     </Link>
                 </div>

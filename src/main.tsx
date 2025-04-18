@@ -5,7 +5,6 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './queryClient';
 import "./index.css";
 import { routeTree } from './routeTree.gen';
-import { ClerkProvider } from '@clerk/clerk-react';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Create the router instance

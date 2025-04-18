@@ -1,6 +1,12 @@
-const SpaceElements = () => {
+import React from 'react';
+
+interface SpaceElementsProps {
+    className?: string;  // Optional className prop
+}
+
+const SpaceElements: React.FC<SpaceElementsProps> = ({ className }) => {
     return (
-        <div className="fixed z-10 min-h-screen overflow-hidden w-full">
+        <div className={`fixed z-10 min-h-screen overflow-hidden w-full ${className}`}>
             <div>
                 <img
                     src="/plane.gif"
@@ -49,7 +55,7 @@ const SpaceElements = () => {
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default SpaceElements;
