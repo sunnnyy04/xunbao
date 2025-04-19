@@ -11,6 +11,8 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SignupImport } from './routes/signup'
+import { Route as SigninImport } from './routes/signin'
 import { Route as RegisterImport } from './routes/register'
 import { Route as QuizImport } from './routes/quiz'
 import { Route as LeaderboardImport } from './routes/leaderboard'
@@ -18,6 +20,18 @@ import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const SignupRoute = SignupImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SigninRoute = SigninImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const RegisterRoute = RegisterImport.update({
   id: '/register',
@@ -88,6 +102,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninImport
+      parentRoute: typeof rootRoute
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -99,6 +127,8 @@ export interface FileRoutesByFullPath {
   '/leaderboard': typeof LeaderboardRoute
   '/quiz': typeof QuizRoute
   '/register': typeof RegisterRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
 }
 
 export interface FileRoutesByTo {
@@ -107,6 +137,8 @@ export interface FileRoutesByTo {
   '/leaderboard': typeof LeaderboardRoute
   '/quiz': typeof QuizRoute
   '/register': typeof RegisterRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
 }
 
 export interface FileRoutesById {
@@ -116,14 +148,38 @@ export interface FileRoutesById {
   '/leaderboard': typeof LeaderboardRoute
   '/quiz': typeof QuizRoute
   '/register': typeof RegisterRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/leaderboard' | '/quiz' | '/register'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/leaderboard'
+    | '/quiz'
+    | '/register'
+    | '/signin'
+    | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/leaderboard' | '/quiz' | '/register'
-  id: '__root__' | '/' | '/about' | '/leaderboard' | '/quiz' | '/register'
+  to:
+    | '/'
+    | '/about'
+    | '/leaderboard'
+    | '/quiz'
+    | '/register'
+    | '/signin'
+    | '/signup'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/leaderboard'
+    | '/quiz'
+    | '/register'
+    | '/signin'
+    | '/signup'
   fileRoutesById: FileRoutesById
 }
 
@@ -133,6 +189,8 @@ export interface RootRouteChildren {
   LeaderboardRoute: typeof LeaderboardRoute
   QuizRoute: typeof QuizRoute
   RegisterRoute: typeof RegisterRoute
+  SigninRoute: typeof SigninRoute
+  SignupRoute: typeof SignupRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -141,6 +199,8 @@ const rootRouteChildren: RootRouteChildren = {
   LeaderboardRoute: LeaderboardRoute,
   QuizRoute: QuizRoute,
   RegisterRoute: RegisterRoute,
+  SigninRoute: SigninRoute,
+  SignupRoute: SignupRoute,
 }
 
 export const routeTree = rootRoute
@@ -157,7 +217,9 @@ export const routeTree = rootRoute
         "/about",
         "/leaderboard",
         "/quiz",
-        "/register"
+        "/register",
+        "/signin",
+        "/signup"
       ]
     },
     "/": {
@@ -174,6 +236,12 @@ export const routeTree = rootRoute
     },
     "/register": {
       "filePath": "register.tsx"
+    },
+    "/signin": {
+      "filePath": "signin.tsx"
+    },
+    "/signup": {
+      "filePath": "signup.tsx"
     }
   }
 }

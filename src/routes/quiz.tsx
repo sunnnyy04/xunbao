@@ -13,7 +13,7 @@ interface Question {
 
 interface LeaderboardEntry {
   username: string;
-  score: number;
+  rank: number;
 }
 
 interface SubmitAnswerResult {
@@ -278,7 +278,7 @@ function RouteComponent() {
                     <tr key={index} className="hover:bg-gray-50">
                       <td className="border p-2">{index + 1}</td>
                       <td className="border p-2">{entry.username}</td>
-                      <td className="border p-2">{entry.score}</td>
+                      <td className="border p-2">{entry.rank}</td>
                     </tr>
                   ))}
                 </tbody>
