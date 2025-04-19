@@ -47,7 +47,7 @@ export default function RegisterForm() {
         setIsLoading(true);
         setMessage("");
         try {
-            const res = await fetch("http://xunback.manantechnosurge.tech/api/user/register", {
+            const res = await fetch("https://xunback.manantechnosurge.tech/api/user/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
